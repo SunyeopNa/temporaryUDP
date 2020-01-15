@@ -55,8 +55,6 @@ int main(int argc, char const *argv[])
     } 
     valread = read( new_socket , buffer, 1024); 
 
-    int8_t* c = *reinterpret_cast<int8_t>(buffer);
-
     std::cout << c[0] << c[1] << c[2] << c[3]<<std::endl;
 
     //printf("%s : %s\n","mesage_recieved",buffer ); 
