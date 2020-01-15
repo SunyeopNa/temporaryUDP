@@ -54,6 +54,7 @@ int main(int argc, char const *argv[])
 
 	while (1)
 	{
+        std::cout << "Wait for New Message."<<std::endl;
 		if ((new_socket = accept(server_fd, (struct sockaddr *)&address,
 			(socklen_t*)&addrlen)) < 0)
 		{
@@ -61,7 +62,9 @@ int main(int argc, char const *argv[])
 			exit(EXIT_FAILURE);
 		}
 
+        std::cout << "Message Accepted."<<std::endl;
 
+        std::cout << "read Message."<<std::endl;
 		valread = read(new_socket, buffer, 1024);
 
 		for (int i = 0; i < 1024; i++)
