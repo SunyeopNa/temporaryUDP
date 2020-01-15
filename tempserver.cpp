@@ -74,12 +74,11 @@ int main() {
         // keep running as long as the client keeps the connection open
 		while (1) {
 
-            if((n = recv(sock, buffer, maxlen, 0)) > 0))
+            if((n = recv(sock, buffer, maxlen, 0)) > 0)
             {
-                
+			printf("received: '%s'\n", buffer);
             }
 
-			printf("received: '%s'\n", buffer);
 		}
 
 		// // keep running as long as the client keeps the connection open
