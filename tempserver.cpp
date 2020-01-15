@@ -86,9 +86,6 @@ int main() {
 
             printf("\n");
 			memset(buffer,0,100);
-
-			// echo received content back
-			send(sock, buffer, len, 0);
 		}
         printf("connection cancel.");
 		close(sock);
