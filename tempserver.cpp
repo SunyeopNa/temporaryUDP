@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <iostream>
+
 /**
  * TCP Uses 2 types of sockets, the connection socket and the listen socket.
  * The Goal is to separate the connection phase from the data exchange phase.
@@ -64,29 +64,41 @@ int main() {
 		}
 
 		int n = 0;
-		int len = 0, maxlen = 45;
+		int len = 0, maxlen = 46;
 		char buffer[maxlen];
 		char *pbuffer = buffer;
 
 		printf("client connected with ip address: %s\n",
 		       inet_ntoa(client_address.sin_addr));
 
-		// keep running as long as the client keeps the connection open
-		while ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
-            
-			pbuffer += n;
-			maxlen -= n;
-			len += n;
+        // keep running as long as the client keeps the connection open
+		while (1) {
 
-            printf("received: ");
-            for(int i = 0 ; i < 10 ; i++)
+            if((n = recv(sock, buffer, maxlen, 0)) > 0))
             {
-              printf("%d,",buffer[i]);
+                
             }
 
-            printf("\n");
+			printf("received: '%s'\n", buffer);
 		}
-        printf("connection cancel.");
+
+		// // keep running as long as the client keeps the connection open
+		// while (1) {
+
+        //     if((n = recv(sock, pbuffer, maxlen, 0)) > 0))
+        //     {
+                
+        //     }
+		// 	pbuffer += n;
+		// 	maxlen -= n;
+		// 	len += n;
+
+		// 	printf("received: '%s'\n", buffer);
+
+		// 	// echo received content back
+		// 	send(sock, buffer, len, 0);
+		// }
+        printf("connection cancel.\n")
 		close(sock);
 	}
 
