@@ -16,7 +16,7 @@ int main(int argc, char const *argv[])
     char buffer[1024] = {0}; 
     char *hello = "Hello from server"; 
 
-       
+       z
     // Creating socket file descriptor 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
     { 
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
     } 
     valread = read( new_socket , buffer, 1024); 
 
-    std::cout << c[0] << c[1] << c[2] << c[3]<<std::endl;
+    std::cout << buffer[0] << c[1] <<bufferc[2] << c[3]<<std::endl;
 
     //printf("%s : %s\n","mesage_recieved",buffer ); 
     send(new_socket , hello , strlen(hello) , 0 ); 
