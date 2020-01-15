@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <iostream>
 /**
  * TCP Uses 2 types of sockets, the connection socket and the listen socket.
  * The Goal is to separate the connection phase from the data exchange phase.
@@ -77,7 +77,12 @@ int main() {
 			maxlen -= n;
 			len += n;
 
-			printf("received: '%s'\n", buffer);
+            printf("received: ");
+            for(int i = 0 ; i < 100 ; i++)
+            {
+              printf("%d,",buffer[i]);
+            }
+			
 
 			// echo received content back
 			send(sock, buffer, len, 0);
