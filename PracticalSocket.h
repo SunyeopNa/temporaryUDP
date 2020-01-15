@@ -23,6 +23,7 @@
 
 #include <string>            // For string
 #include <exception>         // For exception class
+#include <memory>
 
 using namespace std;
 
