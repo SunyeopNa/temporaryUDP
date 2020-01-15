@@ -1,73 +1,91 @@
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <unistd.h>
 #include <arpa/inet.h>
-#include <sys/socket.h>
+#include <netinet/in.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
-const int BUF_SIZE = 1024;
+/**
+ * TCP Uses 2 types of sockets, the connection socket and the listen socket.
+ * The Goal is to separate the connection phase from the data exchange phase.
+ * */
 
-void error_handling(const char *message);
+int main() {
+	// port to start the server on
+	int SERVER_PORT = 9333;
 
-// Receive two parameters, argv [1] as port number
-int main(int argc, char *argv[]) {
-    int server_socket;
-    int client_sock;
+	// socket address used for the server
+	struct sockaddr_in server_address;
+	memset(&server_address, 0, sizeof(server_address));
+	server_address.sin_family = AF_INET;
 
-    char message[BUF_SIZE];
-    ssize_t str_len;
-    int i;
-    struct sockaddr_in server_addr;
-    struct sockaddr_in client_addr;
-    socklen_t client_addr_size;
+	// htons: host to network short: transforms a value in host byte
+	// ordering format to a short value in network byte ordering format
+	server_address.sin_port = htons(SERVER_PORT);
 
-    if (argc != 2) {
-        printf("Usage: %s <port>\n", argv[0]);
-        exit(1);
-    }
+	// htonl: host to network long: same as htons but to long
+	server_address.sin_addr.s_addr = htonl(INADDR_ANY);
 
-    Ser_socket = socket (PF_INET, SOCK_STREAM, 0); //Create IPv4 TCP socket
-    if (server_socket == -1) {
-        error_handling("socket() error");
-    }
+	// create a TCP socket, creation returns -1 on failure
+	int listen_sock;
+	if ((listen_sock = socket(PF_INET, SOCK_STREAM, 0)) < 0) {
+		printf("could not create listen socket\n");
+		return 1;
+	}
 
-    // Initialization of address information
-    memset(&server_addr, 0, sizeof(server_addr));
-    Server_addr.sin_family = AF_INET; // IPV4 address family
-    Server_addr.sin_addr.s_addr = htonl (INADDR_ANY); // Assign the IP address of the server using INADDR_ANY
-    Server_addr.sin_port = htons (atoi (argv [1]); the // port number is set by the first parameter
+	// bind it to listen to the incoming connections on the created server
+	// address, will return -1 on error
+	if ((bind(listen_sock, (struct sockaddr *)&server_address,
+	          sizeof(server_address))) < 0) {
+		printf("could not bind socket\n");
+		return 1;
+	}
 
-    // Assignment of address information
-    if (bind(server_socket, (struct sockaddr*)&server_addr, sizeof(sockaddr)) == -1) {
-        error_handling("bind() error");
-    }
+	int wait_size = 16;  // maximum number of waiting clients, after which
+	                     // dropping begins
+	if (listen(listen_sock, wait_size) < 0) {
+		printf("could not open socket for listening\n");
+		return 1;
+	}
 
-    // Listen for connection requests with a maximum number of simultaneous connections of 5
-    if (listen(server_socket, 5) == -1) {
-        error_handling("listen() error");
-    }
+	// socket address used to store client address
+	struct sockaddr_in client_address;
+	int client_address_len = 0;
 
-    client_addr_size = sizeof(client_addr);
-    for (i = 0; i < 5; ++i) {
-        // Accept client connection requests
-        client_sock = accept(server_socket, (struct sockaddr*)&client_addr, &client_addr_size);
-        if (client_sock == -1) {
-            error_handling("accept() error");
-        } else {
-            printf("Connect client %d\n", i + 1);
-        }
+	// run indefinitely
+	while (true) {
+		// open a new socket to transmit data per connection
+		int sock;
+		if ((sock =
+		         accept(listen_sock, (struct sockaddr *)&client_address,
+		                &client_address_len)) < 0) {
+			printf("could not open a socket to accept data\n");
+			return 1;
+		}
 
-        // Read data from the client
-        while ((str_len = read(client_sock, message, BUF_SIZE)) != 0) {
-            // Transfer data to client
-            write(client_sock, message, (size_t)str_len);
-            message[str_len] = '';
-            printf("client %d: message %s", i + 1, message);
-        }
-    }
-    // Close the connection
-    close(client_sock);
+		int n = 0;
+		int len = 0, maxlen = 100;
+		char buffer[maxlen];
+		char *pbuffer = buffer;
 
-    printf("echo server\n");
-    return 0;
+		printf("client connected with ip address: %s\n",
+		       inet_ntoa(client_address.sin_addr));
+
+		// keep running as long as the client keeps the connection open
+		while ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
+			pbuffer += n;
+			maxlen -= n;
+			len += n;
+
+			printf("received: '%s'\n", buffer);
+
+			// echo received content back
+			send(sock, buffer, len, 0);
+		}
+
+		close(sock);
+	}
+
+	close(listen_sock);
+	return 0;
 }
