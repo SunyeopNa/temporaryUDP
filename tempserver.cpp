@@ -46,7 +46,9 @@ int main(int argc, char const *argv[])
         perror("bind failed"); 
         exit(EXIT_FAILURE); 
     } 
-    if (listen(server_fd, 3) < 0) 
+    while(1)
+    {
+            if (listen(server_fd, 3) < 0) 
     { 
         perror("listen"); 
         exit(EXIT_FAILURE); 
@@ -66,7 +68,8 @@ int main(int argc, char const *argv[])
     std::cout<<std::endl;
 
     //printf("%s : %s\n","mesage_recieved",buffer ); 
-    send(new_socket , hello , strlen(hello) , 0 ); 
-    printf("Hello message sent\n"); 
+    //send(new_socket , hello , strlen(hello) , 0 ); 
+    //printf("Hello message sent\n"); 
+    }
     return 0; 
 } 
