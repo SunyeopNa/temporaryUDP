@@ -64,7 +64,7 @@ int main() {
 		}
 
 		int n = 0;
-		int len = 0, maxlen = 40000;
+		int len = 0, maxlen = 45;
 		char buffer[maxlen];
 		char *pbuffer = buffer;
 
@@ -85,7 +85,6 @@ int main() {
             }
 
             printf("\n");
-			memset(buffer,0,100);
 		}
         printf("connection cancel.");
 		close(sock);
