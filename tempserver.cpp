@@ -5,6 +5,7 @@
 #include <stdlib.h> 
 #include <netinet/in.h> 
 #include <string.h> 
+#include "json/json.h"
 #define PORT 9333 
 int main(int argc, char const *argv[]) 
 { 
@@ -14,6 +15,10 @@ int main(int argc, char const *argv[])
     int addrlen = sizeof(address); 
     char buffer[1024] = {0}; 
     char *hello = "Hello from server"; 
+
+    Json::Value root;
+    Json::Reader reader;
+
        
     // Creating socket file descriptor 
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) 
@@ -52,7 +57,12 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE); 
     } 
     valread = read( new_socket , buffer, 1024); 
-    printf("%s : %s\n","mesage_recieved",buffer ); 
+
+    int8_t* c = *reinterpret_cast<int8_t>(buffer);
+
+    std::cout << c[0] << c[1] << c[2] << c[3]<<std::endl;
+
+    //printf("%s : %s\n","mesage_recieved",buffer ); 
     send(new_socket , hello , strlen(hello) , 0 ); 
     printf("Hello message sent\n"); 
     return 0; 
