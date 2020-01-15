@@ -5,7 +5,7 @@
 #include <stdlib.h> 
 #include <netinet/in.h> 
 #include <string.h> 
-#define PORT 14418 
+#define PORT 9222 
 int main(int argc, char const *argv[]) 
 { 
     int server_fd, new_socket, valread; 
