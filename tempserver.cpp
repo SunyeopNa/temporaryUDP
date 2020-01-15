@@ -73,7 +73,7 @@ int main() {
 
 		// keep running as long as the client keeps the connection open
 		while ((n = recv(sock, pbuffer, maxlen, 0)) > 0) {
-            memset(buffer,0,10000);
+            
 			pbuffer += n;
 			maxlen -= n;
 			len += n;
@@ -85,7 +85,7 @@ int main() {
             }
 
             printf("\n");
-			
+			memset(buffer,0,10000);
 
 			// echo received content back
 			send(sock, buffer, len, 0);
