@@ -64,7 +64,7 @@ int main() {
 		}
 
 		int n = 0;
-		int len = 0, maxlen = 100;
+		int len = 0, maxlen = 1000;
 		char buffer[maxlen];
 		char *pbuffer = buffer;
 
