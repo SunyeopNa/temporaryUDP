@@ -61,9 +61,9 @@ int main(int argc, char const *argv[])
 
     for(int i = 0 ; i < 1024; i ++)
     {
-        cout<<buffer[i];
+        std::cout<<buffer[i];
     }
-    cout<<endl;
+    std::cout<<std::endl;
 
     //printf("%s : %s\n","mesage_recieved",buffer ); 
     send(new_socket , hello , strlen(hello) , 0 ); 
