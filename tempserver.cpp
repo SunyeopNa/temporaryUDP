@@ -82,7 +82,7 @@ int main() {
 			// echo received content back
 			send(sock, buffer, len, 0);
 		}
-
+        printf("connection cancel.");
 		close(sock);
 	}
 
