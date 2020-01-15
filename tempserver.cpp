@@ -64,7 +64,7 @@ int main() {
 		}
 
 		int n = 0;
-		int len = 0, maxlen = 10000;
+		int len = 0, maxlen = 40000;
 		char buffer[maxlen];
 		char *pbuffer = buffer;
 
@@ -79,13 +79,13 @@ int main() {
 			len += n;
 
             printf("received: ");
-            for(int i = 0 ; i < 100 ; i++)
+            for(int i = 0 ; i < 10 ; i++)
             {
               printf("%d,",buffer[i]);
             }
 
             printf("\n");
-			memset(buffer,0,10000);
+			memset(buffer,0,100);
 
 			// echo received content back
 			send(sock, buffer, len, 0);
