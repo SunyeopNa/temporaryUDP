@@ -1,77 +1,73 @@
-/*
- *   C++ sockets on Unix and Windows
- *   Copyright (C) 2002
- *
- *   This program is free software; you can redistribute it and/or modify
- *   it under the terms of the GNU General Public License as published by
- *   the Free Software Foundation; either version 2 of the License, or
- *   (at your option) any later version.
- *
- *   This program is distributed in the hope that it will be useful,
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *   GNU General Public License for more details.
- *
- *   You should have received a copy of the GNU General Public License
- *   along with this program; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
-#include "PracticalSocket.h"  // For Socket, ServerSocket, and SocketException
-#include <iostream>           // For cerr and cout
-#include <cstdlib>            // For atoi()
+const int BUF_SIZE = 1024;
 
-using namespace std;
+void error_handling(const char *message);
 
-const unsigned int RCVBUFSIZE = 32;    // Size of receive buffer
-
-void HandleTCPClient(TCPSocket *sock); // TCP client handling function
-
+// Receive two parameters, argv [1] as port number
 int main(int argc, char *argv[]) {
-  if (argc != 2) {                     // Test for correct number of arguments
-    cerr << "Usage: " << argv[0] << " <Server Port>" << endl;
-    exit(1);
-  }
+    int server_socket;
+    int client_sock;
 
-  unsigned short echoServPort = atoi(argv[1]);  // First arg: local port
+    char message[BUF_SIZE];
+    ssize_t str_len;
+    int i;
+    struct sockaddr_in server_addr;
+    struct sockaddr_in client_addr;
+    socklen_t client_addr_size;
 
-  try {
-    TCPServerSocket servSock(echoServPort);     // Server Socket object
-  
-    for (;;) {   // Run forever
-      HandleTCPClient(servSock.accept());       // Wait for a client to connect
+    if (argc != 2) {
+        printf("Usage: %s <port>\n", argv[0]);
+        exit(1);
     }
-  } catch (SocketException &e) {
-    cerr << e.what() << endl;
-    exit(1);
-  }
-  // NOT REACHED
 
-  return 0;
-}
+    Ser_socket = socket (PF_INET, SOCK_STREAM, 0); //Create IPv4 TCP socket
+    if (server_socket == -1) {
+        error_handling("socket() error");
+    }
 
-// TCP client handling function
-void HandleTCPClient(TCPSocket *sock) {
-  cout << "Handling client ";
-  try {
-    cout << sock->getForeignAddress() << ":";
-  } catch (SocketException e) {
-    cerr << "Unable to get foreign address" << endl;
-  }
-  try {
-    cout << sock->getForeignPort();
-  } catch (SocketException e) {
-    cerr << "Unable to get foreign port" << endl;
-  }
-  cout << endl;
+    // Initialization of address information
+    memset(&server_addr, 0, sizeof(server_addr));
+    Server_addr.sin_family = AF_INET; // IPV4 address family
+    Server_addr.sin_addr.s_addr = htonl (INADDR_ANY); // Assign the IP address of the server using INADDR_ANY
+    Server_addr.sin_port = htons (atoi (argv [1]); the // port number is set by the first parameter
 
-  // Send received string and receive again until the end of transmission
-  char echoBuffer[RCVBUFSIZE];
-  int recvMsgSize;
-  while ((recvMsgSize = sock->recv(echoBuffer, RCVBUFSIZE)) > 0) { // Zero means
-                                                         // end of transmission
-    // Echo message back to client
-    sock->send(echoBuffer, recvMsgSize);
-  }
-  delete sock;
+    // Assignment of address information
+    if (bind(server_socket, (struct sockaddr*)&server_addr, sizeof(sockaddr)) == -1) {
+        error_handling("bind() error");
+    }
+
+    // Listen for connection requests with a maximum number of simultaneous connections of 5
+    if (listen(server_socket, 5) == -1) {
+        error_handling("listen() error");
+    }
+
+    client_addr_size = sizeof(client_addr);
+    for (i = 0; i < 5; ++i) {
+        // Accept client connection requests
+        client_sock = accept(server_socket, (struct sockaddr*)&client_addr, &client_addr_size);
+        if (client_sock == -1) {
+            error_handling("accept() error");
+        } else {
+            printf("Connect client %d\n", i + 1);
+        }
+
+        // Read data from the client
+        while ((str_len = read(client_sock, message, BUF_SIZE)) != 0) {
+            // Transfer data to client
+            write(client_sock, message, (size_t)str_len);
+            message[str_len] = '';
+            printf("client %d: message %s", i + 1, message);
+        }
+    }
+    // Close the connection
+    close(client_sock);
+
+    printf("echo server\n");
+    return 0;
 }
