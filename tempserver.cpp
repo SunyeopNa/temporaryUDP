@@ -14,6 +14,11 @@ int main(int argc, char const *argv[])
     int opt = 1; 
     int addrlen = sizeof(address); 
     char buffer[1024] = {0}; 
+
+    for(int i = 0 ; i < 1024; i ++)
+    {
+        buffer= 'F';
+    }
     char *hello = "Hello from server"; 
 
     // Creating socket file descriptor 
@@ -54,7 +59,11 @@ int main(int argc, char const *argv[])
     } 
     valread = read( new_socket , buffer, 1024); 
 
-    std::cout << buffer[0] <<buffer[1] <<buffer[2] << buffer[3]<<std::endl;
+    for(int i = 0 ; i < 1024; i ++)
+    {
+        cout<<buffer[i];
+    }
+    cout<<endl;
 
     //printf("%s : %s\n","mesage_recieved",buffer ); 
     send(new_socket , hello , strlen(hello) , 0 ); 
