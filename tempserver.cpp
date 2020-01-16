@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
 		printf("client connected with ip address: %s\n",
 		       inet_ntoa(client_address.sin_addr));
 
+		printf("wait : recv");
         // keep running as long as the client keeps the connection open
 		while (1) {
 
