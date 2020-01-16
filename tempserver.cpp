@@ -106,6 +106,7 @@ int main(int argc, char *argv[]) {
 			{
 				int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
 				nb = recv(sock, pbuffer, maxlen - received, received);
+				std::cout << "received: " << pbuffer << std::endl;
 				received += nb;
 				pbuffer += nb;
 			}
