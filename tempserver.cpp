@@ -81,8 +81,8 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 
-		
-		int maxlen = 66+112*112*3;
+		int n = 0;
+		int len = 0, maxlen = 66+112*112*3;
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
 		
@@ -98,11 +98,9 @@ int main(int argc, char *argv[]) {
 			unsigned char bytes[4];
 			int received = 0;
 			int nb = 0;
-			int n = 0;
 
 			n = recv(sock, bytes, 4, 0);
 			bitsToInt(total_image_size, bytes, false);
-
 
 			while (received < total_image_size)
 			{
@@ -111,7 +109,6 @@ int main(int argc, char *argv[]) {
 				received += nb;
 				pbuffer += nb;
 			}
-
 
             if((n = recv(sock, buffer, maxlen, 0)) > 0)
             {
