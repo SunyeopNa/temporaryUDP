@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 				while (received < total_image_size)
 				{
 					int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
-					nb = recv(sock, pbuffer, maxlen - received, received);
+					nb = recv(sock, pbuffer, n, received);
 					received += nb;
 					pbuffer += nb;
 				}
