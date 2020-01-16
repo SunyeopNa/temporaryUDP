@@ -84,6 +84,7 @@ int main(int argc, char *argv[]) {
 			if (n == 4)
 			{
 				bitsToInt(total_image_size, bytes, false);
+				std::cout << "Total Image Size : " << total_image_size << std::endl;
 
 				while (received < total_image_size)
 				{
