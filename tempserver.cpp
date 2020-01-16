@@ -81,11 +81,11 @@ int main(int argc, char *argv[]) {
 			return 1;
 		}
 
-		int n = 0;
-		int len = 0, maxlen = 66+112*112*3;
+		
+		int maxlen = 66+112*112*3;
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
-		int total_image_size;
+		
 
 		std::cout << "client connected with ip address: " << inet_ntoa(client_address.sin_addr) << std::endl;
 
@@ -93,12 +93,16 @@ int main(int argc, char *argv[]) {
         // keep running as long as the client keeps the connection open
 		while (1) {
 
+			int total_image_size;
 			char *pbuffer = buffer;
 			unsigned char bytes[4];
-			n = recv(sock, bytes, 4, 0);
-			bitsToInt(total_image_size, bytes, false);
 			int received = 0;
 			int nb = 0;
+			int n = 0;
+
+			n = recv(sock, bytes, 4, 0);
+			bitsToInt(total_image_size, bytes, false);
+
 
 			while (received < total_image_size)
 			{
@@ -111,9 +115,8 @@ int main(int argc, char *argv[]) {
 
             if((n = recv(sock, buffer, maxlen, 0)) > 0)
             {
-				std::cout << "received: " << buffer << std::endl;
+				std::cout << "received: " << pbuffer << std::endl;
             }
-
 		}
 
 		std::cout << "connection cancel.\n" << std::endl;
