@@ -65,7 +65,8 @@ int main() {
 
 		int n = 0;
 		int len = 0, maxlen = 66+112*112*3;
-		char buffer[maxlen];
+		/*char buffer[maxlen];*/
+		char* buffer = new char[maxlen];
 		char *pbuffer = buffer;
 
 		printf("client connected with ip address: %s\n",
@@ -99,6 +100,7 @@ int main() {
 		// }
         printf("connection cancel.\n");
 		close(sock);
+		delete(buffer);
 	}
 
 	close(listen_sock);
