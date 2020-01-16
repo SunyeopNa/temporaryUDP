@@ -12,7 +12,7 @@
 
 int main() {
 	// port to start the server on
-	int SERVER_PORT = 9333;
+	int SERVER_PORT = 9444;
 
 	// socket address used for the server
 	struct sockaddr_in server_address;
