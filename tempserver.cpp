@@ -90,10 +90,9 @@ int main(int argc, char *argv[]) {
 
 		int total_image_size;
 
-		printf("client connected with ip address: %s\n",
-		       inet_ntoa(client_address.sin_addr));
+		std::cout << "client connected with ip address: " << inet_ntoa(client_address.sin_addr) << std::endl;
 
-		printf("wait : recv");
+		std::cout << "wait : recv" << std::endl;
         // keep running as long as the client keeps the connection open
 		while (1) {
 
@@ -126,7 +125,7 @@ int main(int argc, char *argv[]) {
 
 		}
 
-        printf("connection cancel.\n");
+		std::cout << "connection cancel.\n" << std::endl;
 		close(sock);
 		delete(buffer);
 	}
