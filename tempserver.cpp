@@ -16,8 +16,8 @@ int main(int argc, char *argv[]) {
 	if (argc != 2) { printf("usage : ./{PROGRAMNAME} {SERVER_PORT}\n"); return 0; }
 
 	int SERVER_PORT = atoi(argv[1]);
-	printf("port : %d", SERVER_PORT);
-	printf("lego");
+	std::cout << "port : " << SERVER_PORT << endl;
+	
 
 	// socket address used for the server
 	struct sockaddr_in server_address;
