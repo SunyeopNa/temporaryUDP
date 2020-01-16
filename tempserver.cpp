@@ -85,9 +85,6 @@ int main(int argc, char *argv[]) {
 		int len = 0, maxlen = 66+112*112*3;
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
-		char *pbuffer = buffer;
-		unsigned char bytes[4];
-
 		int total_image_size;
 
 		std::cout << "client connected with ip address: " << inet_ntoa(client_address.sin_addr) << std::endl;
@@ -95,21 +92,18 @@ int main(int argc, char *argv[]) {
 		std::cout << "wait : recv" << std::endl;
         // keep running as long as the client keeps the connection open
 		while (1) {
-			memset(bytes, 0, 4);
+
+			char *pbuffer = buffer;
+			unsigned char bytes[4];
 			n = recv(sock, bytes, 4, 0);
-			std::cout << n << std::endl;
-
 			bitsToInt(total_image_size, bytes, false);
-
-			std::cout << total_image_size << std::endl;
-
 			int received = 0;
 			int nb = 0;
+
 			while (received < total_image_size)
 			{
 				int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
 				nb = recv(sock, pbuffer, maxlen - received, received);
-				std::cout << nb << std::endl;
 				received += nb;
 				pbuffer += nb;
 			}
