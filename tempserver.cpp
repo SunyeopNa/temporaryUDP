@@ -81,17 +81,21 @@ int main(int argc, char *argv[]) {
 			int nb = 0;
 
 			n = recv(sock, bytes, 4, 0);
-			bitsToInt(total_image_size, bytes, false);
-
-			while (received < total_image_size)
+			if (n == 4)
 			{
-				int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
-				nb = recv(sock, pbuffer, maxlen - received, received);
-				received += nb;
-				pbuffer += nb;
+				bitsToInt(total_image_size, bytes, false);
+
+				while (received < total_image_size)
+				{
+					int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
+					nb = recv(sock, pbuffer, maxlen - received, received);
+					received += nb;
+					pbuffer += nb;
+				}
+
+				std::cout << "received: " << buffer << std::endl;
 			}
 
-			std::cout << "received: " << buffer << std::endl;
 
 		}
 
