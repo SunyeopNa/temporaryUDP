@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 			n = recv(sock, bytes, 4, 0);
 			std::cout << n << std::endl;
 
-			bitsToInt(total_image_size, bytes, false);
+			bitsToInt(total_image_size, bytes, true);
 
 			std::cout << total_image_size << std::endl;
 
