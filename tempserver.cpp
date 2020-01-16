@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[]) {
 	// port to start the server on
-	if (argc == 0) { printf("usage : ./{PROGRAMNAME} {SERVER_PORT}"); return 0; }
+	if (argc <= 1 || argc >2) { printf("usage : ./{PROGRAMNAME} {SERVER_PORT}"); return 0; }
 
 	int SERVER_PORT = argv[1];
 
