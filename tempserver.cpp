@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		int n = 0;
-		int len = 0, maxlen = 66+112;
+		int len = 0, maxlen = 66+112*112*3;
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
 		char *pbuffer = buffer;
