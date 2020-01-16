@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
 		char *pbuffer = buffer;
-		char bytes[] = new byte[4];
+		unsigned char bytes[] = new unsigned char[4];
 
 		int total_image_size;
 
@@ -99,8 +99,8 @@ int main(int argc, char *argv[]) {
 
 			memset(bytes, 0, 4);
 			if (n = recv(sock, bytes, 4, 0) != 4)
-			{
-				std::cout << "unvalid bytes : " << n << endl;
+			{																										
+				std::cout << "unvalid bytes : " << n << std::endl;
 			}
 			else
 			{
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
 				int nb = 0;
 				while (received < total_image_size)
 				{
-					int n = total_image_size - received >= BUFF_SIZE ? BUFF_SIZE : total_image_size - received;
+					int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
 					nb = recv(sock, pbuffer, maxlen - received, received);
 					received += nb;
 					pbuffer += nb;
