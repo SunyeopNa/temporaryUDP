@@ -111,10 +111,8 @@ int main(int argc, char *argv[]) {
 				pbuffer += nb;
 			}
 
-            if((n = recv(sock, buffer, maxlen, 0)) > 0)
-            {
-				std::cout << "received: " << buffer << std::endl;
-            }
+			std::cout << "received: " << buffer << std::endl;
+
 		}
 
 		std::cout << "connection cancel.\n" << std::endl;
