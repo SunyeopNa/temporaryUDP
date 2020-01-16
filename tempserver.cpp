@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 			n = recv(sock, bytes, 4, 0);
 			std::cout << n << std::endl;
 
-			bitsToInt(total_image_size, bytes, true);
+			bitsToInt(total_image_size, bytes, false);
 
 			std::cout << total_image_size << std::endl;
 
@@ -109,6 +109,7 @@ int main(int argc, char *argv[]) {
 			{
 				int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
 				nb = recv(sock, pbuffer, maxlen - received, received);
+				std::cout << nb << std::endl;
 				received += nb;
 				pbuffer += nb;
 			}
