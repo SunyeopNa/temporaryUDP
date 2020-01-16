@@ -121,7 +121,7 @@ int main(int argc, char *argv[]) {
 
             if((n = recv(sock, buffer, maxlen, 0)) > 0)
             {
-				printf("received: '%s'\n", buffer);
+				std::cout << "received: " << buffer << std::endl;
             }
 
 		}
