@@ -10,9 +10,11 @@
  * The Goal is to separate the connection phase from the data exchange phase.
  * */
 
-int main() {
+int main(int argc, char *argv[]) {
 	// port to start the server on
-	int SERVER_PORT = 9444;
+	if (argc == 0) { printf("usage : ./{PROGRAMNAME} {SERVER_PORT}") return 0; }
+
+	int SERVER_PORT = argv[1];
 
 	// socket address used for the server
 	struct sockaddr_in server_address;
@@ -100,7 +102,7 @@ int main() {
 		// }
         printf("connection cancel.\n");
 		close(sock);
-		delete(buffer);
+		delete(buffer)
 	}
 
 	close(listen_sock);
