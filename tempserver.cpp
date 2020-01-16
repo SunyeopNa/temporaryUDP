@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
 		char *pbuffer = buffer;
-		unsigned char bytes[] = new unsigned char[4];
+		unsigned char bytes[4];
 
 		int total_image_size;
 
