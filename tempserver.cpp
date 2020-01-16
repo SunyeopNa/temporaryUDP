@@ -79,8 +79,8 @@ int main(int argc, char *argv[]) {
 			unsigned char bytes[4];
 			int received = 0;
 			int nb = 0;
-
 			n = recv(sock, bytes, 4, 0);
+			std::cout << n << std::endl;
 			if (n == 4)
 			{
 				bitsToInt(total_image_size, bytes, false);
