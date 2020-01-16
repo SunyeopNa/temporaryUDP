@@ -115,7 +115,7 @@ int main(int argc, char *argv[]) {
 
             if((n = recv(sock, buffer, maxlen, 0)) > 0)
             {
-				std::cout << "received: " << pbuffer << std::endl;
+				std::cout << "received: " << buffer << std::endl;
             }
 		}
 
