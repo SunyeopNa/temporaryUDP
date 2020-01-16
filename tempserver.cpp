@@ -10,6 +10,19 @@
  * The Goal is to separate the connection phase from the data exchange phase.
  * */
 
+template <typename IntegerType>
+IntegerType bitsToInt(IntegerType& result, const unsigned char* bits, bool little_endian = true)
+{
+	result = 0;
+	if (little_endian)
+		for (int n = sizeof(result); n >= 0; n--)
+			result = (result << 8) + bits[n];
+	else
+		for (unsigned n = 0; n < sizeof(result); n++)
+			result = (result << 8) + bits[n];
+	return result;
+}
+
 int main(int argc, char *argv[]) {
 	std::cout << argv[1]<< " " << argc << std::endl;
 	// port to start the server on
@@ -73,6 +86,9 @@ int main(int argc, char *argv[]) {
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
 		char *pbuffer = buffer;
+		char bytes[] = new byte[4];
+
+		int total_image_size;
 
 		printf("client connected with ip address: %s\n",
 		       inet_ntoa(client_address.sin_addr));
@@ -81,9 +97,31 @@ int main(int argc, char *argv[]) {
         // keep running as long as the client keeps the connection open
 		while (1) {
 
+			memset(bytes, 0, 4);
+			if (n = recv(sock, bytes, 4, 0) != 4)
+			{
+				std::cout << "unvalid bytes : " << n << endl;
+			}
+			else
+			{
+				bitsToInt(total_image_size, bytes, false);
+
+				int received = 0;
+				int nb = 0;
+				while (received < total_image_size)
+				{
+					int n = total_image_size - received >= BUFF_SIZE ? BUFF_SIZE : total_image_size - received;
+					nb = recv(sock, pbuffer, maxlen - received, received);
+					received += nb;
+					pbuffer += nb;
+				}
+			}
+
+
+
             if((n = recv(sock, buffer, maxlen, 0)) > 0)
             {
-			printf("received: '%s'\n", buffer);
+				printf("received: '%s'\n", buffer);
             }
 
 		}
