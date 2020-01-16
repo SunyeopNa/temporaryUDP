@@ -4,13 +4,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-
+#include <iostream>
 /**
  * TCP Uses 2 types of sockets, the connection socket and the listen socket.
  * The Goal is to separate the connection phase from the data exchange phase.
  * */
 
 int main(int argc, char *argv[]) {
+	std::cout << argv[1]<< " " << argc << std::endl;
 	// port to start the server on
 	if (argc != 2) { printf("usage : ./{PROGRAMNAME} {SERVER_PORT}\n"); return 0; }
 
