@@ -95,27 +95,23 @@ int main(int argc, char *argv[]) {
 		std::cout << "wait : recv" << std::endl;
         // keep running as long as the client keeps the connection open
 		while (1) {
-
 			memset(bytes, 0, 4);
-			if (n = recv(sock, bytes, 4, 0) != 4)
-			{																										
-				std::cout << "unvalid bytes : " << n << std::endl;
-			}
-			else
+			n = recv(sock, bytes, 4, 0);
+			std::cout << n << std::endl;
+
+			bitsToInt(total_image_size, bytes, false);
+
+			std::cout << total_image_size << std::endl;
+
+			int received = 0;
+			int nb = 0;
+			while (received < total_image_size)
 			{
-				bitsToInt(total_image_size, bytes, false);
-
-				int received = 0;
-				int nb = 0;
-				while (received < total_image_size)
-				{
-					int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
-					nb = recv(sock, pbuffer, maxlen - received, received);
-					received += nb;
-					pbuffer += nb;
-				}
+				int n = total_image_size - received >= maxlen ? maxlen : total_image_size - received;
+				nb = recv(sock, pbuffer, maxlen - received, received);
+				received += nb;
+				pbuffer += nb;
 			}
-
 
 
             if((n = recv(sock, buffer, maxlen, 0)) > 0)
