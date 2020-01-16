@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 		}
 
 		int n = 0;
-		int len = 0, maxlen = 66+112*112*3;
+		int len = 0, maxlen = 66+112;
 		/*char buffer[maxlen];*/
 		char* buffer = new char[maxlen];
 		char *pbuffer = buffer;
@@ -84,22 +84,6 @@ int main(int argc, char *argv[]) {
 
 		}
 
-		// // keep running as long as the client keeps the connection open
-		// while (1) {
-
-        //     if((n = recv(sock, pbuffer, maxlen, 0)) > 0))
-        //     {
-                
-        //     }
-		// 	pbuffer += n;
-		// 	maxlen -= n;
-		// 	len += n;
-
-		// 	printf("received: '%s'\n", buffer);
-
-		// 	// echo received content back
-		// 	send(sock, buffer, len, 0);
-		// }
         printf("connection cancel.\n");
 		close(sock);
 		delete(buffer);
