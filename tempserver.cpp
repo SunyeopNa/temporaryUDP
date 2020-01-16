@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 		// }
         printf("connection cancel.\n");
 		close(sock);
-		delete(buffer)
+		delete(buffer);
 	}
 
 	close(listen_sock);
