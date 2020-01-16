@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
 	if (argc <= 1 || argc >2) { printf("usage : ./{PROGRAMNAME} {SERVER_PORT}"); return 0; }
 
 	int SERVER_PORT = argv[1];
+	print("port : %d",SERVER_PORT)
 
 	// socket address used for the server
 	struct sockaddr_in server_address;
